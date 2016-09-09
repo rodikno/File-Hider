@@ -33,6 +33,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.hideUnhideButton = new System.Windows.Forms.Button();
+            this.ShowHiddenFileButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,19 +75,30 @@
             // 
             // hideUnhideButton
             // 
-            this.hideUnhideButton.Location = new System.Drawing.Point(142, 95);
+            this.hideUnhideButton.Location = new System.Drawing.Point(25, 100);
             this.hideUnhideButton.Name = "hideUnhideButton";
             this.hideUnhideButton.Size = new System.Drawing.Size(174, 54);
             this.hideUnhideButton.TabIndex = 4;
-            this.hideUnhideButton.Text = "Показать файл";
+            this.hideUnhideButton.Text = "Скрыть файл";
             this.hideUnhideButton.UseVisualStyleBackColor = true;
-            this.hideUnhideButton.Click += new System.EventHandler(this.HideUnhideButton_Click);
+            this.hideUnhideButton.Click += new System.EventHandler(this.HideFileButton_Click);
+            // 
+            // ShowHiddenFileButton
+            // 
+            this.ShowHiddenFileButton.Location = new System.Drawing.Point(264, 100);
+            this.ShowHiddenFileButton.Name = "ShowHiddenFileButton";
+            this.ShowHiddenFileButton.Size = new System.Drawing.Size(159, 54);
+            this.ShowHiddenFileButton.TabIndex = 5;
+            this.ShowHiddenFileButton.Text = "Показать файл";
+            this.ShowHiddenFileButton.UseVisualStyleBackColor = true;
+            this.ShowHiddenFileButton.Click += new System.EventHandler(this.ShowHiddenFileButton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(447, 179);
+            this.Controls.Add(this.ShowHiddenFileButton);
             this.Controls.Add(this.hideUnhideButton);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
