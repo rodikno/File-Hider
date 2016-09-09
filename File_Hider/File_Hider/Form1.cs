@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.Text;
+using System.IO;
 
 
 namespace File_Hider
@@ -88,6 +89,32 @@ namespace File_Hider
     }
 
     public static class Prompt
+    {
+        public static string ShowDialog(string text, string caption)
+        {
+            Form prompt = new Form()
+            {
+                Width = 200,
+                Height = 150,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = caption,
+                StartPosition = FormStartPosition.CenterScreen
+            };
+            Label textLabel = new Label() { Left = 20, Top = 20, Text = text };
+            TextBox textBox = new TextBox() { Left = 20, Top = 50, Width = 150 };
+            textBox.Text = "";
+            Button confirmation = new Button() { Text = "OK", Left = 70, Width = 50, Top = 80, DialogResult = DialogResult.OK };
+            confirmation.Click += (sender, e) => { prompt.Close(); };
+            prompt.Controls.Add(textBox);
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(textLabel);
+            prompt.AcceptButton = confirmation;
+
+            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
+        }
+    }
+
+    public static class PasswordPrompt
     {
         public static string ShowDialog(string text, string caption)
         {
