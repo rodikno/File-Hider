@@ -116,6 +116,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button hideUnhideButton;
+        private System.Windows.Forms.Button ShowHiddenFileButton;
     }
 }
 
