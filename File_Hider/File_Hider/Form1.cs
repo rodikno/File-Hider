@@ -50,13 +50,41 @@ namespace File_Hider
         private void HideUnhideButton_Click(object sender, EventArgs e)
         {
             string promptValue = Prompt.ShowDialog("Введите пароль", "Авторизация");
-            //SHOW PASSWORD PROMPT HERE
+            string promptValueHash = sha256_hash(promptValue);
+            if (isPasswordCorrect(promptValueHash))
+            {
+                MessageBox.Show("Error Message", "Error Title", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
-        //private void ispasswordcorrect(string password)
-        //{
-        //    if 
-        //}
+        private string sha256_hash(String value)
+        {
+            StringBuilder Sb = new StringBuilder();
+
+            using (SHA256 hash = SHA256Managed.Create())
+            {
+                Encoding enc = Encoding.UTF8;
+                Byte[] result = hash.ComputeHash(enc.GetBytes(value));
+
+                foreach (Byte b in result)
+                    Sb.Append(b.ToString("x2"));
+            }
+
+            return Sb.ToString();
+        }
+
+        private bool isPasswordCorrect(string password_SHA256)
+        {
+            if (password_SHA256 == defaultPassword_SHA256)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            //check if password hash is equal to hash we have hardcoded in constant
+        }
     }
 
     public static class Prompt
