@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Security.Cryptography;
+using System.Text;
 
 
 namespace File_Hider
 {
     public partial class Form1 : Form
     {
+        private const string defaultPassword_SHA256 = "66306b6849d7272b10657dc9f19e7ba9f094d17a2f138405ea869a493a2cccbd";
+
         public Form1()
         {
             InitializeComponent();

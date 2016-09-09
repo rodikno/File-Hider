@@ -86,7 +86,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(447, 285);
+            this.ClientSize = new System.Drawing.Size(447, 179);
             this.Controls.Add(this.hideUnhideButton);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
