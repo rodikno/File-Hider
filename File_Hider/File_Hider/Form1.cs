@@ -16,19 +16,6 @@ namespace File_Hider
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            folderBrowserDialog1.SelectedPath = "";
-            using (folderBrowserDialog1)
-            {
-                if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    string path = folderBrowserDialog1.SelectedPath;
-                    textBox1.Text = path;
-                }
-            }
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -39,30 +26,17 @@ namespace File_Hider
 
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void HideFileButton_Click(object sender, EventArgs e)
         {
-            //ask for file name with extension
-            string filename = Prompt.ShowDialog("Введите имя файла", "Введите полное имя файла (напр. example.jpg)");
-            //build a string as path to folder get from folderBrowserDialog1 + filename with extension
-            string pathToFile = "";
-            if (!isPathEmpty(folderBrowserDialog1.SelectedPath))
+            string pathToFile = getPathToFileFromDialog();
+            if (!isPathEmpty(pathToFile))
             {
-                pathToFile = textBox1.Text + "\\" + filename;
                 setAttributeHidden(pathToFile);
+                MessageBox.Show("Выбранный файл теперь скрыт", "Успех", MessageBoxButtons.OK);
             }
             else
             {
-                MessageBox.Show("Выберите папку, где находится файл", "Отсутствует каталог", MessageBoxButtons.OK);
+                MessageBox.Show("Пожалуйста, выберите файл", "Файл не выбран", MessageBoxButtons.OK);
             }
         }
 
@@ -72,19 +46,28 @@ namespace File_Hider
             string promptValueHash = sha256_hash(promptValue);
             if (isPasswordCorrect(promptValueHash))
             {
-                //ask for file name with extension
-                string filename = Prompt.ShowDialog("Введите имя файла", "Введите полное имя файла (напр. example.jpg)");
-                //build a string as path to folder get from folderBrowserDialog1 + filename with extension
+                //open choose folder dialog to choose folder where file is located potntially
+                folderBrowserDialog1.SelectedPath = "";
                 string pathToFile = "";
-                if (!isPathEmpty(folderBrowserDialog1.SelectedPath))
+                using (folderBrowserDialog1)
                 {
-                    pathToFile = textBox1.Text + "\\" + filename;
+                    if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        pathToFile = folderBrowserDialog1.SelectedPath;
+                    }
+                }
+                //ask for file name with extension
+                string filename = Prompt.ShowDialog("Напр. image.jpg", "Введите имя файла");
+                //build a string as path to folder get from folderBrowserDialog1 + filename with extension
+                if (!isPathEmpty(pathToFile))
+                {
+                    string fullPathToFile = pathToFile + @"\" + filename;
                     try
                     {
-                        if (isFileHidden(pathToFile))
+                        if (isFileHidden(fullPathToFile))
                         {
                             //REMOVE all specific attributes from file to make it fully visible
-                            removeAllSpecificAttributes(pathToFile);
+                            removeAllSpecificAttributes(fullPathToFile);
                             MessageBox.Show("Выбранный файл теперь является видимым", "Получилось", MessageBoxButtons.OK);
                         }
                         else
@@ -96,7 +79,7 @@ namespace File_Hider
                     {
                         MessageBox.Show("Файл не существует в текущем каталоге", "Ошибка", MessageBoxButtons.OK);
                     }
-                    
+
                 }
                 else
                 {
@@ -109,19 +92,27 @@ namespace File_Hider
             }
         }
 
+        //HELPER METHODS BELOW
+        private string getPathToFileFromDialog()
+        {
+            using (openFileDialog1)
+            {
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    string filename = openFileDialog1.FileName;
+                    return filename;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
         private bool isFileHidden(string filePath)
         {
-            //try
-            //{
                 FileAttributes fileAttributes = File.GetAttributes(filePath);
                 return ((fileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden) ? true : false;
-            //}
-            //catch (FileNotFoundException e)
-            //{
-            //    MessageBox.Show("Файл не существует в текущем каталоге", "Ошибка", MessageBoxButtons.OK);
-            //    return false;
-            //}
-
         }
 
         private void setAttributeHidden(string filePath)
@@ -182,6 +173,10 @@ namespace File_Hider
             //check if password hash is equal to hash we have hardcoded in constant
         }
 
+        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
     }
 
     public static class Prompt
